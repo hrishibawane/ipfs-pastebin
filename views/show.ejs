@@ -1,0 +1,16 @@
+<%- include('partials/header') -%>
+
+<div class="container">
+  <label style="font-weight: bold; font-size:smaller">RAW Paste</label>
+  <textarea
+    name="paste"
+    class="form-control"
+    rows="30"
+    style="font-size: x-small; font-family: 'Courier New', Courier, monospace;"
+    readonly
+  >
+    <%= paste %>
+  </textarea>
+</div>
+
+<%- include('partials/footer') -%>

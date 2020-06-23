@@ -1,0 +1,28 @@
+<%- include('partials/header') -%>
+
+<div class="container">
+  <form method="POST" action="/">
+    <div class="form-group">
+      <label style="font-weight: bold; font-size: smaller;">New Paste</label>
+      <textarea
+        name="paste"
+        class="form-control"
+        rows="20"
+        placeholder="Paste your code/text here..."
+        style="
+          font-size: x-small;
+          font-family: 'Courier New', Courier, monospace;
+        "
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      style="font-size: smaller;"
+    >
+      Create New Paste
+    </button>
+  </form>
+</div>
+
+<%- include('partials/footer') -%>
