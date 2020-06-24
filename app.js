@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+const downloadsFolder = require("downloads-folder");
 const ipfs = require("./ipfs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,11 +34,22 @@ app.get("/:hash", async (req, res) => {
     let paste = await ipfs.files.get(hash);
     console.log(paste);
     paste = new TextDecoder("utf-8").decode(paste[0].content);
-    res.render("show", { paste: paste });
+    res.render("show", { paste: paste, key: hash });
   } catch (err) {
     console.log(err.message);
   }
 });
+
+app.post("/download", (req, res) => {
+  const data = req.body.raw_paste.toString("utf-8");
+  const key = req.body.key.toString("utf-8");
+  console.log(data);
+  var writeStream = fs.createWriteStream(path.join(downloadsFolder(), "pastebin.txt"));
+  writeStream.write(data);
+  writeStream.end();
+  res.redirect("/"+key);
+});
+
 
 const PORT = process.env.PORT || 3000;
 
