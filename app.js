@@ -40,15 +40,37 @@ app.get("/:hash", async (req, res) => {
   }
 });
 
-app.post("/download", (req, res) => {
-  const data = req.body.raw_paste.toString("utf-8");
-  const key = req.body.key.toString("utf-8");
-  console.log(data);
-  var writeStream = fs.createWriteStream(path.join(downloadsFolder(), "pastebin.txt"));
-  writeStream.write(data);
-  writeStream.end();
-  res.redirect("/"+key);
+// //not needed anymore
+// app.post("/download", (req, res) => {
+//   const data = req.body.raw_paste.toString("utf-8");
+//   const key = req.body.key.toString("utf-8");
+//   console.log(data);
+
+//   var writeStream = fs.createWriteStream("pastebin.txt");
+//   writeStream.write(data);
+//   writeStream.end();
+//   res.redirect("/"+key);
+// });
+
+app.get("/download/:hash", async (req, res) => {
+
+  try {
+    //decode content
+    let paste = await ipfs.files.get(req.params.hash);
+    paste = new TextDecoder("utf-8").decode(paste[0].content);
+    //create/link to file pastebin.txt
+    var writeStream = await fs.createWriteStream("pastebin.txt");
+    //write paste into file
+    writeStream.write(paste, 'utf8', () => {
+      //no need to delete file since it will just overwrite again and again
+      res.download("./pastebin.txt")
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+
 });
+
 
 
 const PORT = process.env.PORT || 3000;

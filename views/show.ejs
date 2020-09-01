@@ -27,14 +27,24 @@
     <%= paste %>
   </textarea>
     </div>
-    <button
-      type="submit"
+    
+  </form>
+  <!-- button taken out of form and given download id -->
+  <button
+      id="download"
       class="btn btn-secondary btn-sm"
       style="font-size: x-small;"
     >
       Download
     </button>
-  </form>
 </div>
+<!-- added new window script for download -->
+<script>
+  var download = document.getElementById("download");
+  download.onclick = (e) => {
+    window.open("http://localhost:3000/download/<%= key %>")
+  }
+
+</script>
 
 <%- include('partials/footer') -%>
