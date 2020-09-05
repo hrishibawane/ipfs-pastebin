@@ -52,7 +52,7 @@ app.get("/:hash", async (req, res) => {
 //   res.redirect("/"+key);
 // });
 
-app.get("/download/:hash", async (req, res) => {
+app.get("/:hash/download", async (req, res) => {
 
   try {
     //decode content
